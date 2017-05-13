@@ -1,0 +1,47 @@
+CREATE DATABASE joycasino
+    WITH 
+    OWNER = party
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'ru_RU.UTF-8'
+    LC_CTYPE = 'ru_RU.UTF-8'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+--joycasino_bank
+
+CREATE TABLE public.joycasino_bank
+(
+    id integer NOT NULL DEFAULT nextval('joycasino_bank_id_seq'::regclass),
+    jackpot bigint NOT NULL,
+    CONSTRAINT joycasino_bank_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.joycasino_bank
+    OWNER to postgres;
+
+--joycasino_userinfo
+
+CREATE TABLE public.joycasino_userinfo
+(
+    id integer NOT NULL DEFAULT nextval('joycasino_userinfo_id_seq'::regclass),
+    name character varying(22) COLLATE pg_catalog."default" NOT NULL,
+    balance integer NOT NULL,
+    CONSTRAINT joycasino_userinfo_pkey PRIMARY KEY (id),
+    CONSTRAINT joycasino_userinfo_name_key UNIQUE (name)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.joycasino_userinfo
+    OWNER to postgres;
+
+CREATE INDEX joycasino_userinfo_name_6945781f_like
+    ON public.joycasino_userinfo USING btree
+    (name COLLATE pg_catalog."default" varchar_pattern_ops)
+    TABLESPACE pg_default;
